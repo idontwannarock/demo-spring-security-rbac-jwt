@@ -11,7 +11,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
       properties:
         show_sql: true
         format_sql: true

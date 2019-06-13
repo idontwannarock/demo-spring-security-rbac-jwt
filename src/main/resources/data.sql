@@ -1,36 +1,10 @@
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE IF NOT EXISTS users(
-    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `username` varchar(100) NOT NULL,
-    `password` varchar(100) NOT NULL,
-    `enabled` tinyint(1) NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
-INSERT INTO users (username, password, enabled) VALUES
-    ('John', '', 1),
-    ('Marry', '', 1);
-
-DROP TABLE IF EXISTS roles;
-
-CREATE TABLE IF NOT EXISTS roles(
-    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `name` varchar(100) NOT NULL,
-    PRIMARY KEY (`id`)
-);
+INSERT INTO users (username, password, isEnabled, isTokenExpired) VALUES
+    ('John', '', true, true),
+    ('Marie', '', true, true);
 
 INSERT INTO roles (name) VALUES
     ('ROLE_USER'),
     ('ROLE_ADMIN');
-
-DROP TABLE IF EXISTS privileges;
-
-CREATE TABLE IF NOT EXISTS privileges(
-    `id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `name` varchar(100) NOT NULL,
-    PRIMARY KEY (`id`)
-);
 
 INSERT INTO privileges (name) VALUES
     ('CREATE_USER'),
@@ -54,33 +28,11 @@ INSERT INTO privileges (name) VALUES
     ('UPDATE_ROLE_PRIVILEGE'),
     ('DELETE_ROLE_PRIVILEGE');
 
-DROP TABLE IF EXISTS role_members;
-
-CREATE TABLE IF NOT EXISTS role_members(
-    `roles_id` bigint(20) NOT NULL,
-    `members_id` bigint(20) NOT NULL,
-    KEY `fk_role_members_users` (`members_id`),
-    KEY `fk_role_members_roles` (`roles_id`),
-    CONSTRAINT `fk_role_members_roles` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`),
-    CONSTRAINT `fk_role_members_users` FOREIGN KEY (`members_id`) REFERENCES `users` (`id`)
-);
-
-INSERT INTO role_members (roles_id, members_id) VALUES
+INSERT INTO role_members (roleId, memberId) VALUES
     (1, 1),
     (2, 2);
 
-DROP TABLE IF EXISTS role_privileges;
-
-CREATE TABLE IF NOT EXISTS role_privileges(
-    `roles_id` bigint(20) NOT NULL,
-    `privileges_id` bigint(20) NOT NULL,
-    KEY `fk_role_privileges_privileges` (`privileges_id`),
-    KEY `fk_role_privileges_roles` (`roles_id`),
-    CONSTRAINT `fk_role_privileges_privileges` FOREIGN KEY (`privileges_id`) REFERENCES `privileges` (`id`),
-    CONSTRAINT `fk_role_privileges_roles` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`)
-);
-
-INSERT INTO role_privileges (roles_id, privileges_id) VALUES
+INSERT INTO role_privileges (roleId, privilegeId) VALUES
     (1, 2),
     (1, 6),
     (2, 1),

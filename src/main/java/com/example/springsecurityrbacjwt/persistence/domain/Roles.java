@@ -1,7 +1,8 @@
 package com.example.springsecurityrbacjwt.persistence.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -10,16 +11,17 @@ public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100, nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Users> users;
+    private Set<Users> users = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "role_privileges",
-            joinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "privileges_id", referencedColumnName = "id"))
-    private Collection<Privileges> privileges;
+            joinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_roles")),
+            inverseJoinColumns = @JoinColumn(name = "privilegeId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_privileges")))
+    private Set<Privileges> privileges = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -37,19 +39,19 @@ public class Roles {
         this.name = name;
     }
 
-    public Collection<Users> getUsers() {
+    public Set<Users> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<Users> users) {
+    public void setUsers(Set<Users> users) {
         this.users = users;
     }
 
-    public Collection<Privileges> getPrivileges() {
+    public Set<Privileges> getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(Collection<Privileges> privileges) {
+    public void setPrivileges(Set<Privileges> privileges) {
         this.privileges = privileges;
     }
 }

@@ -1,7 +1,8 @@
 package com.example.springsecurityrbacjwt.persistence.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "privileges")
@@ -10,10 +11,11 @@ public class Privileges {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100, nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
-    private Collection<Roles> roles;
+    private Set<Roles> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -31,11 +33,11 @@ public class Privileges {
         this.name = name;
     }
 
-    public Collection<Roles> getRoles() {
+    public Set<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Roles> roles) {
+    public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
 }

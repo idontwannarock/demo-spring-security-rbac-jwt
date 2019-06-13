@@ -1,7 +1,8 @@
 package com.example.springsecurityrbacjwt.persistence.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -10,16 +11,20 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 100, nullable = false)
     private String username;
+    @Column(length = 100, nullable = false)
     private String password;
-    private Boolean enabled;
-    private Boolean tokenExpired;
+    @Column(nullable = false)
+    private Boolean isEnabled;
+    @Column(nullable = false)
+    private Boolean isTokenExpired;
 
     @ManyToMany
     @JoinTable(name = "role_members",
-            joinColumns = @JoinColumn(name = "members_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
-    private Collection<Roles> roles;
+            joinColumns = @JoinColumn(name = "memberId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_users")),
+            inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_roles")))
+    private Set<Roles> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -45,27 +50,27 @@ public class Users {
         this.password = password;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Boolean getIsEnabled() {
+        return isEnabled;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
-    public Boolean getTokenExpired() {
-        return tokenExpired;
+    public Boolean getIsTokenExpired() {
+        return isTokenExpired;
     }
 
-    public void setTokenExpired(Boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
+    public void setIsTokenExpired(Boolean isTokenExpired) {
+        this.isTokenExpired = isTokenExpired;
     }
 
-    public Collection<Roles> getRoles() {
+    public Set<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Roles> roles) {
+    public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
 }
