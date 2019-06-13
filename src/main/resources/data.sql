@@ -1,4 +1,4 @@
-INSERT INTO users (username, password, isEnabled, isTokenExpired) VALUES
+INSERT INTO users (username, password, is_enabled, is_token_expired) VALUES
     ('John', '', true, true),
     ('Marie', '', true, true);
 
@@ -28,11 +28,11 @@ INSERT INTO privileges (name) VALUES
     ('UPDATE_ROLE_PRIVILEGE'),
     ('DELETE_ROLE_PRIVILEGE');
 
-INSERT INTO role_members (roleId, memberId) VALUES
+INSERT INTO role_members (role_id, member_id) VALUES
     (1, 1),
     (2, 2);
 
-INSERT INTO role_privileges (roleId, privilegeId) VALUES
+INSERT INTO role_privileges (role_id, privilege_id) VALUES
     (1, 2),
     (1, 6),
     (2, 1),

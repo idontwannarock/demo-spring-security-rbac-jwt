@@ -22,8 +22,8 @@ public class Users {
 
     @ManyToMany
     @JoinTable(name = "role_members",
-            joinColumns = @JoinColumn(name = "memberId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_users")),
-            inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_roles")))
+            joinColumns = @JoinColumn(name = "member_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_users")),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_members_roles")))
     private Set<Roles> roles = new HashSet<>();
 
     public Long getId() {

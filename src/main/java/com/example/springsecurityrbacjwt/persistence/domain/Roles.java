@@ -19,8 +19,8 @@ public class Roles {
 
     @ManyToMany
     @JoinTable(name = "role_privileges",
-            joinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_roles")),
-            inverseJoinColumns = @JoinColumn(name = "privilegeId", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_privileges")))
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_roles")),
+            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_privileges")))
     private Set<Privileges> privileges = new HashSet<>();
 
     public Long getId() {
