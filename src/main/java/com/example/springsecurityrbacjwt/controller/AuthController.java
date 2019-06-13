@@ -6,6 +6,7 @@ import com.example.springsecurityrbacjwt.service.RbacUserDetailsService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,5 +35,15 @@ public class AuthController {
         Map<String, String> responseBody = Maps.newHashMap();
         responseBody.put("jwt", JwtUtil.createToken(user.getUsername(), user.getRoles(), user.getPrivileges()));
         return ResponseEntity.ok(responseBody);
+    }
+
+    @ApiOperation(value = "Register with Username, Password and Role", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestParam String username, @RequestParam(required = false, defaultValue = "") String password) {
+        String encodedPassword = password.isEmpty() ? "" : passwordEncoder.encode(password);
+        UserDto user = userDetailsService.saveUserWithUsernameAndPasswordAndRole(username, encodedPassword, "ROLE_USER");
+        Map<String, String> responseBody = Maps.newHashMap();
+        responseBody.put("jwt", JwtUtil.createToken(user.getUsername(), user.getRoles(), user.getPrivileges()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
     }
 }

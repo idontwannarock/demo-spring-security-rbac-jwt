@@ -23,6 +23,13 @@ public class Roles {
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_privileges")))
     private Set<Privileges> privileges = new HashSet<>();
 
+    public Roles() {
+    }
+
+    public Roles(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
