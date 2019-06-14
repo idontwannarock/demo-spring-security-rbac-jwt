@@ -5,6 +5,7 @@ import com.example.springsecurityrbacjwt.exception.UserDetailsException;
 import com.example.springsecurityrbacjwt.persistence.domain.Privileges;
 import com.example.springsecurityrbacjwt.persistence.domain.Roles;
 import com.example.springsecurityrbacjwt.persistence.domain.Users;
+import com.example.springsecurityrbacjwt.persistence.repository.RoleRepository;
 import com.example.springsecurityrbacjwt.persistence.repository.UsersRepository;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class RbacUserDetailsService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public UserDto loadUserByUsernameAndPassword(String username, String encodedPassword) throws UserDetailsException {
         Users user = usersRepository.findByUsernameAndPassword(username, encodedPassword);
@@ -41,7 +45,7 @@ public class RbacUserDetailsService {
         user.setPassword(encodedPassword);
         user.setIsEnabled(true);
         user.setIsTokenExpired(false);
-        user.setRoles(Sets.newHashSet(new Roles(roleName)));
+        user.setRoles(Sets.newHashSet(roleRepository.findByName(roleName)));
         usersRepository.save(user);
         UserDto dto = new UserDto();
         dto.setUsername(user.getUsername());

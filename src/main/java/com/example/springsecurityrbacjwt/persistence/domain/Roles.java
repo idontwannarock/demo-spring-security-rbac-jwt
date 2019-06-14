@@ -11,7 +11,7 @@ public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 100, nullable = false)
+    @Column(unique = true, length = 100, nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
@@ -22,13 +22,6 @@ public class Roles {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_roles")),
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_privileges_privileges")))
     private Set<Privileges> privileges = new HashSet<>();
-
-    public Roles() {
-    }
-
-    public Roles(String name) {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
