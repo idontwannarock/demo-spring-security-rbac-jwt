@@ -12,8 +12,8 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
-      properties:
-        show_sql: true
+    properties:
+      hibernate:
         format_sql: true
   h2:
     console:
